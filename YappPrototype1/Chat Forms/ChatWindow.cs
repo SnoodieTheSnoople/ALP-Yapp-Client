@@ -28,6 +28,8 @@ namespace YappPrototype1.Chat_Forms
             InitializeComponent();
             this.username = username;
             this.email = email;
+
+            
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -54,7 +56,6 @@ namespace YappPrototype1.Chat_Forms
 
                 serverStream = clientSocket.GetStream();
 
-                //byte[] outStream = Encoding.ASCII.GetBytes(username + "$");
                 byte[] outStream = Encoding.UTF8.GetBytes(username + "$");
                 serverStream.Write(outStream, 0, outStream.Length);
                 serverStream.Flush();
@@ -79,14 +80,48 @@ namespace YappPrototype1.Chat_Forms
                     serverStream = clientSocket.GetStream();
                     int buffSize = clientSocket.ReceiveBufferSize;
                     byte[] inStream = new byte[buffSize];
-                    serverStream.Read(inStream, 0, buffSize);
+                    int bytesRead = serverStream.Read(inStream, 0, buffSize);
+
+                    if (bytesRead == 0)
+                    {
+                        throw new IOException("Lost connection to server");
+                    }
 
                     string returnData = Encoding.UTF8.GetString(inStream);
                     readData = "" + returnData;
-                    ServerMsg();
+                    //ServerMsg();
+
+                    if (readData.Contains("/namelist/"))
+                    {
+                        string names = readData.Remove(0, readData.LastIndexOf("/") + 2);
+                        string[] nameList = names.Split(", ");
+
+                        foreach (string name in nameList)
+                        {
+                            Invoke((MethodInvoker) (() => userListBox.Items.Add(name) ));
+                        }
+
+                        readData = readData.Remove(readData.IndexOf("/"), readData.Length - readData.IndexOf("/"));
+                        ServerMsg();
+                    }
+                    else if (readData.Contains("/join/")) 
+                    {
+                        string name = readData.Remove(0, readData.LastIndexOf("/") + 2);
+                        Invoke((MethodInvoker) ( () => userListBox.Items.Insert(userListBox.Items.Count - 1, name) ) );
+                    }
+                    else if (readData.Contains("/leave/"))
+                    {
+                        string name = readData.Remove(0, readData.LastIndexOf("/") + 2);
+                        Invoke((MethodInvoker)(() => userListBox.Items.Remove(name)));
+                    }
+                    else
+                    {
+                        ServerMsg();
+                    }
                 }
                 catch (IOException)
                 {
+                    Disconnect();
                     break;
                 }
             }
@@ -114,12 +149,24 @@ namespace YappPrototype1.Chat_Forms
 
         private void Disconnect()
         {
-            serverStream.Close();
-            //clientSocket.Client.Disconnect(false);
-            clientSocket.Close();
+            try
+            {
+                if (serverStream == null)
+                {
+                    return;
+                }
+                serverStream.Close();
+                clientSocket.Close();
 
-            readData = $"Disconnected from server...";
-            ServerMsg();
+                readData = $"Disconnected from server...";
+                //userListBox.Items.Clear();
+                Invoke((MethodInvoker)(() => userListBox.Items.Clear()));
+                ServerMsg();
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Not connected to server.", "Yapp! Error");
+            }
         }
 
 //------------------------------------------------------------------------
@@ -174,7 +221,7 @@ namespace YappPrototype1.Chat_Forms
         private void C_QuitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Disconnect();
-            Close();
+            Application.Exit();
         }
 
         private void SendMsg_Btn1_KeyDown(object sender, KeyEventArgs e)

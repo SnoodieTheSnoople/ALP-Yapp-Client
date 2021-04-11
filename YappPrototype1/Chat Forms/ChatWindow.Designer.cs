@@ -41,6 +41,7 @@
             this.Chat_TextBox1 = new System.Windows.Forms.TextBox();
             this.Msg_TextBox2 = new System.Windows.Forms.TextBox();
             this.SendMsg_Btn1 = new System.Windows.Forms.Button();
+            this.userListBox = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,11 +156,27 @@
             this.SendMsg_Btn1.Click += new System.EventHandler(this.SendMsg_Btn1_Click);
             this.SendMsg_Btn1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SendMsg_Btn1_KeyDown);
             // 
+            // userListBox
+            // 
+            this.userListBox.BackColor = System.Drawing.SystemColors.Control;
+            this.userListBox.ColumnWidth = 100;
+            this.userListBox.FormattingEnabled = true;
+            this.userListBox.HorizontalExtent = 150;
+            this.userListBox.HorizontalScrollbar = true;
+            this.userListBox.IntegralHeight = false;
+            this.userListBox.ItemHeight = 15;
+            this.userListBox.Location = new System.Drawing.Point(662, 27);
+            this.userListBox.Name = "userListBox";
+            this.userListBox.Size = new System.Drawing.Size(137, 364);
+            this.userListBox.TabIndex = 8;
+            this.userListBox.TabStop = false;
+            // 
             // ChatWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(820, 450);
+            this.Controls.Add(this.userListBox);
             this.Controls.Add(this.SendMsg_Btn1);
             this.Controls.Add(this.Msg_TextBox2);
             this.Controls.Add(this.Chat_TextBox1);
@@ -190,5 +207,6 @@
         private System.Windows.Forms.ToolStripMenuItem C_QuitToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem T_AccDetailsMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem T_OutCLogMenuItem1;
+        private System.Windows.Forms.ListBox userListBox;
     }
 }
