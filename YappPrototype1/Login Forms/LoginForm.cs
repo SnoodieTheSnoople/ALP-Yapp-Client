@@ -66,8 +66,6 @@ namespace YappPrototype1
         {
             if (!EmailFieldEmpty() && !UnameFieldEmpty() && !PwordFieldEmpty())
             {
-                Pword_TxtBox3.Text = hash.GenerateHash(Pword_TxtBox3.Text);
-
                 if (db.Select(Email_TxtBox1.Text, Username_TxtBox2.Text, Pword_TxtBox3.Text))
                 {
                     Authenticated = true;

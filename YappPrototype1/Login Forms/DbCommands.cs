@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
+using YappPrototype1.Login_Forms;
 
 namespace YappPrototype1
 {
     class DbCommands
     {
+        Hash hash = new Hash();
+
         private MySqlConnection connect;
         private string server;
         private string database;
@@ -101,12 +104,11 @@ namespace YappPrototype1
         //ONLY USED WHEN LOGGING IN
         public bool Select(string email, string username, string password)
         {
-            string query = "SELECT email, username, password FROM loginSaltTbl WHERE email = @email AND username = @username AND password = @password";
+            string query = "SELECT email, username, password FROM loginSaltTbl WHERE email = @email AND username = @username";
             var cmd = new MySqlCommand(query, connect);
 
             cmd.Parameters.AddWithValue("@email", email);
             cmd.Parameters.AddWithValue("@username", username);
-            cmd.Parameters.AddWithValue("@password", password);
 
             if (OpenConnection())
             {
@@ -117,7 +119,7 @@ namespace YappPrototype1
                     string queryUsername = reader.GetString(1);
                     string queryPassword = reader.GetString(2);
 
-                    if (queryEmail == email && queryUsername == username && queryPassword == password)
+                    if (queryEmail == email && queryUsername == username && hash.CompareHash(password, queryPassword))
                     {
                         CloseConnection();
                         return true;
