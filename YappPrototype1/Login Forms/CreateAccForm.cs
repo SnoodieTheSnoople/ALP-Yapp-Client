@@ -40,19 +40,19 @@ namespace YappPrototype1
             }
             else if (EmailEmpty())
             {
-                MessageBox.Show("Yapp! Error", "Please enter your email.");
+                MessageBox.Show("Please enter your email.", "Yapp! Error");
             }
             else if (UnameEmpty())
             {
-                MessageBox.Show("Yapp! Error", "Please enter your username.");
+                MessageBox.Show("Please enter your username.", "Yapp! Error");
             }
             else if (PwordEmpty())
             {
-                MessageBox.Show("Yapp! Error", "Please enter your password.");
+                MessageBox.Show("Please enter your password.", "Yapp! Error");
             }
             else if (!PwordMatch())
             {
-                MessageBox.Show("Yapp! Error", "Passwords do not match.");
+                MessageBox.Show("Passwords do not match.", "Yapp! Error");
             }
             hash.RefreshSalt();
         }

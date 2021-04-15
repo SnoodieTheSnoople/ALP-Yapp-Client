@@ -77,20 +77,20 @@ namespace YappPrototype1
                 }
                 else
                 {
-                    MessageBox.Show("Yapp! Error", "Incorrect details to account or account does not exist.");
+                    MessageBox.Show("Incorrect details to account or account does not exist.", "Yapp! Error");
                 }
             }
             else if (EmailFieldEmpty())
             {
-                MessageBox.Show("Yapp! Error", "Please enter your email.");
+                MessageBox.Show("Please enter your email.", "Yapp! Error");
             }
             else if (UnameFieldEmpty())
             {
-                MessageBox.Show("Yapp! Error", "Please enter your username.");
+                MessageBox.Show("Please enter your username.", "Yapp! Error");
             }
             else if (PwordFieldEmpty())
             {
-                MessageBox.Show("Yapp! Error", "Please enter your password.");
+                MessageBox.Show("Please enter your password.", "Yapp! Error");
             }
             hash.RefreshSalt();
         }

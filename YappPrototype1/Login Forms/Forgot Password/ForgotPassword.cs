@@ -41,11 +41,11 @@ namespace YappPrototype1.Login_Forms.Forgot_Password
             }
             else if (NPwordFieldEmpty())
             {
-                MessageBox.Show("Yapp! Error", "Please enter your new password.");
+                MessageBox.Show("Please enter your new password.", "Yapp! Error");
             }
             else if (!PwordMatch())
             {
-                MessageBox.Show("Yapp! Error", "Passwords do not match.");
+                MessageBox.Show("Passwords do not match.", "Yapp! Error");
             }
             hash.RefreshSalt();
         }

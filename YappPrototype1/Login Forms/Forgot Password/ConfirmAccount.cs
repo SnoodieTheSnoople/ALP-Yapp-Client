@@ -36,11 +36,11 @@ namespace YappPrototype1
             }
             else if (EmailFieldEmpty())
             {
-                MessageBox.Show("Yapp! Error", "Please enter your email.");
+                MessageBox.Show("Please enter your email.", "Yapp! Error");
             }
             else if (UnameFieldEmpty())
             {
-                MessageBox.Show("Yapp! Error", "Please enter your username.");
+                MessageBox.Show("Please enter your username.", "Yapp! Error");
             }
 
         }
