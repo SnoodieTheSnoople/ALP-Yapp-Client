@@ -28,12 +28,6 @@ namespace YappPrototype1
 
         private void StartConnection()
         {
-            //server = "localhost";
-            //database = "testlogin";
-            //uid = "yapp";
-            //password = "password";
-
-
             string connectionString = $"SERVER = {server}; DATABASE = {database}; UID = {uid}; PASSWORD = {password};";
             connect = new MySqlConnection(connectionString);
         }
@@ -77,7 +71,7 @@ namespace YappPrototype1
 
         public bool Insert(string email, string username, string password)
         {
-            string query = $"INSERT INTO login (email, username, password) VALUES (@email, @username, @password)";
+            string query = $"INSERT INTO loginSaltTbl (email, username, password) VALUES (@email, @username, @password)";
             var cmd = new MySqlCommand(query, connect);
 
             cmd.Parameters.AddWithValue("@email", email);
@@ -107,7 +101,7 @@ namespace YappPrototype1
         //ONLY USED WHEN LOGGING IN
         public bool Select(string email, string username, string password)
         {
-            string query = "SELECT email, username, password FROM login WHERE email = @email AND username = @username AND password = @password";
+            string query = "SELECT email, username, password FROM loginSaltTbl WHERE email = @email AND username = @username AND password = @password";
             var cmd = new MySqlCommand(query, connect);
 
             cmd.Parameters.AddWithValue("@email", email);
@@ -143,7 +137,7 @@ namespace YappPrototype1
         //This only takes the email and username. It will not be used later on other than in this prototype.
         public bool ConfirmDetails(string email, string username)
         {
-            string query = "SELECT email, username FROM login WHERE email = @email AND username = @username";
+            string query = "SELECT email, username FROM loginSaltTbl WHERE email = @email AND username = @username";
             var cmd = new MySqlCommand(query, connect);
 
             cmd.Parameters.AddWithValue("@email", email);
@@ -176,7 +170,7 @@ namespace YappPrototype1
         //When an appropriate method to verify the user, this method will be used.
         public bool UpdatePassword(string email, string password)
         {
-            string query = "UPDATE login SET password = @password WHERE email = @email";
+            string query = "UPDATE loginSaltTbl SET password = @password WHERE email = @email";
 
             var cmd = new MySqlCommand();
             cmd.Parameters.AddWithValue("@password", password);
@@ -207,7 +201,7 @@ namespace YappPrototype1
 
         public bool DeleteAcc(string email, string username)
         {
-            string query = "DELETE FROM login WHERE email = @email AND username = @username";
+            string query = "DELETE FROM loginSaltTbl WHERE email = @email AND username = @username";
             var cmd = new MySqlCommand();
             cmd.Parameters.AddWithValue("@email", email);
             cmd.Parameters.AddWithValue("@username", username);
