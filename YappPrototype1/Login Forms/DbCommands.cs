@@ -98,6 +98,7 @@ namespace YappPrototype1
                     return false;
                 }
             }
+            CloseConnection();
             return false;
         }
 
@@ -165,6 +166,7 @@ namespace YappPrototype1
                     }
                 }
             }
+            CloseConnection();
             return false;
         }
 
@@ -198,6 +200,7 @@ namespace YappPrototype1
                 }
                 
             }
+            CloseConnection();
             return false;
         }
 
