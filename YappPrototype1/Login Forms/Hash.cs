@@ -27,5 +27,10 @@ namespace YappPrototype1.Login_Forms
             if (BCrypt.Net.BCrypt.Verify(plainPassword, hashedPword)) return true;
             else return false;
         }
+
+        public void RefreshSalt()
+        {
+            salt = BCrypt.Net.BCrypt.GenerateSalt(_cost, _type);
+        }
     }
 }

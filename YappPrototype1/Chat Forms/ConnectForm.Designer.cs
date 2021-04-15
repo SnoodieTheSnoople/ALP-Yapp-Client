@@ -101,7 +101,7 @@
             this.Controls.Add(this.PortNo_TxtBox2);
             this.Controls.Add(this.IP_TxtBox1);
             this.Name = "ConnectForm";
-            this.Text = "ConnectForm";
+            this.Text = "Yapp! Connect";
             this.ResumeLayout(false);
             this.PerformLayout();
 

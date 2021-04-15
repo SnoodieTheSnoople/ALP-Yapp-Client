@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using YappPrototype1.Login_Forms;
 
 namespace YappPrototype1
 {
@@ -12,16 +13,14 @@ namespace YappPrototype1
     {
 
         DbCommands db = new DbCommands();
+        Hash hash = new Hash();
 
         public CreateAccForm()
         {
             InitializeComponent();
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void textBox3_TextChanged(object sender, EventArgs e) { }
 
         //Cancel button
         private void button1_Click(object sender, EventArgs e)
@@ -33,11 +32,29 @@ namespace YappPrototype1
         {
             if (!EmailEmpty() && !UnameEmpty() && !PwordEmpty() && PwordMatch())
             {
+                ConfirmPword_TxtBox4.Text = hash.GenerateHash(ConfirmPword_TxtBox4.Text);
                 if (db.Insert(Email_TxtBox1.Text, Uname_TxtBox2.Text, ConfirmPword_TxtBox4.Text))
                 {
                     Close();
                 }
             }
+            else if (EmailEmpty())
+            {
+                MessageBox.Show("Yapp! Error", "Please enter your email.");
+            }
+            else if (UnameEmpty())
+            {
+                MessageBox.Show("Yapp! Error", "Please enter your username.");
+            }
+            else if (PwordEmpty())
+            {
+                MessageBox.Show("Yapp! Error", "Please enter your password.");
+            }
+            else if (!PwordMatch())
+            {
+                MessageBox.Show("Yapp! Error", "Passwords do not match.");
+            }
+            hash.RefreshSalt();
         }
 
         private bool EmailEmpty()

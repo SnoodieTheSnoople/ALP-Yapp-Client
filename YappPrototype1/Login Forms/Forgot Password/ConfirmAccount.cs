@@ -25,17 +25,48 @@ namespace YappPrototype1
 
         private void SubmitBtn2_Click(object sender, EventArgs e)
         {
-            if (db.ConfirmDetails(Email_TxtBox1.Text, Uname_TxtBox2.Text))
+            if (!EmailFieldEmpty() && !UnameFieldEmpty())
             {
-                var forgotPwordForm = new ForgotPassword(Email_TxtBox1.Text);
-                forgotPwordForm.Show();
-                Close();
+                if (db.ConfirmDetails(Email_TxtBox1.Text, Uname_TxtBox2.Text))
+                {
+                    var forgotPwordForm = new ForgotPassword(Email_TxtBox1.Text);
+                    forgotPwordForm.Show();
+                    Close();
+                }
+            }
+            else if (EmailFieldEmpty())
+            {
+                MessageBox.Show("Yapp! Error", "Please enter your email.");
+            }
+            else if (UnameFieldEmpty())
+            {
+                MessageBox.Show("Yapp! Error", "Please enter your username.");
             }
 
         }
 
-        //NOT FINAL - TEMPORARY
+        private bool EmailFieldEmpty()
+        {
+            if (Email_TxtBox1.Text.Equals(""))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-
+        private bool UnameFieldEmpty()
+        {
+            if (Uname_TxtBox2.Text.Equals(""))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

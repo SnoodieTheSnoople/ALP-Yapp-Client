@@ -12,6 +12,7 @@ namespace YappPrototype1.Login_Forms.Forgot_Password
     public partial class ForgotPassword : Form
     {
         DbCommands db = new DbCommands();
+        Hash hash = new Hash();
         string email;
 
         public ForgotPassword(string email)
@@ -27,13 +28,26 @@ namespace YappPrototype1.Login_Forms.Forgot_Password
 
         private void SubmitBtn2_Click(object sender, EventArgs e)
         {
-            if (PwordMatch())
+            if (!NPwordFieldEmpty())
             {
-                if (db.UpdatePassword(email, Cnpword_TxtBox2.Text))
+                if (PwordMatch())
                 {
-                    Close();
+                    Cnpword_TxtBox2.Text = hash.GenerateHash(Cnpword_TxtBox2.Text);
+                    if (db.UpdatePassword(email, Cnpword_TxtBox2.Text))
+                    {
+                        Close();
+                    }
                 }
             }
+            else if (NPwordFieldEmpty())
+            {
+                MessageBox.Show("Yapp! Error", "Please enter your new password.");
+            }
+            else if (!PwordMatch())
+            {
+                MessageBox.Show("Yapp! Error", "Passwords do not match.");
+            }
+            hash.RefreshSalt();
         }
 
         private bool PwordMatch()
@@ -45,6 +59,18 @@ namespace YappPrototype1.Login_Forms.Forgot_Password
             else
             {
                 MessageBox.Show("Passwords do not match.", "Yapp! Error");
+                return false;
+            }
+        }
+
+        private bool NPwordFieldEmpty()
+        {
+            if (Npword_TxtBox1.Text.Equals(""))
+            {
+                return true;
+            }
+            else
+            {
                 return false;
             }
         }

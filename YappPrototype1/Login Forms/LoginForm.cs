@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using YappPrototype1.Chat_Forms;
+using YappPrototype1.Login_Forms;
 
 namespace YappPrototype1
 {
@@ -18,6 +19,7 @@ namespace YappPrototype1
         public string Email { get; private set; }
 
         DbCommands db = new DbCommands();
+        Hash hash = new Hash();
 
         public LoginForm()
         {
@@ -64,6 +66,8 @@ namespace YappPrototype1
         {
             if (!EmailFieldEmpty() && !UnameFieldEmpty() && !PwordFieldEmpty())
             {
+                Pword_TxtBox3.Text = hash.GenerateHash(Pword_TxtBox3.Text);
+
                 if (db.Select(Email_TxtBox1.Text, Username_TxtBox2.Text, Pword_TxtBox3.Text))
                 {
                     Authenticated = true;
@@ -71,7 +75,24 @@ namespace YappPrototype1
                     Email = Email_TxtBox1.Text;
                     Close();
                 }
+                else
+                {
+                    MessageBox.Show("Yapp! Error", "Incorrect details to account or account does not exist.");
+                }
             }
+            else if (EmailFieldEmpty())
+            {
+                MessageBox.Show("Yapp! Error", "Please enter your email.");
+            }
+            else if (UnameFieldEmpty())
+            {
+                MessageBox.Show("Yapp! Error", "Please enter your username.");
+            }
+            else if (PwordFieldEmpty())
+            {
+                MessageBox.Show("Yapp! Error", "Please enter your password.");
+            }
+            hash.RefreshSalt();
         }
 
         private void CreateAcc_link2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

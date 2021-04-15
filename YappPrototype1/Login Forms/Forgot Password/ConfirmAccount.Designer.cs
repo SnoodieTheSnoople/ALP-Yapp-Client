@@ -100,7 +100,7 @@
             this.Controls.Add(this.Uname_TxtBox2);
             this.Controls.Add(this.Email_TxtBox1);
             this.Name = "ConfirmAccount";
-            this.Text = "Yapp! Confirm Credentials";
+            this.Text = "Yapp! Confirm Account";
             this.ResumeLayout(false);
             this.PerformLayout();
 
