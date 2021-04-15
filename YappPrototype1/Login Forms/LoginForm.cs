@@ -82,7 +82,7 @@ namespace YappPrototype1
 
         private void Quit_Btn1_Click(object sender, EventArgs e)
         {
-            Close();
+            Application.Exit();
         }
 
         private void Forgotpword_link1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

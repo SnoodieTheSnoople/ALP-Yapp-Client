@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Linq;
 //using System.Net.Sockets.Shutdown;
 
 namespace YappPrototype1.Chat_Forms
@@ -19,7 +20,7 @@ namespace YappPrototype1.Chat_Forms
         NetworkStream serverStream = default;
         string readData = null;
         System.Net.IPAddress IP;
-        Int32 portNum;
+        int portNum;
         string username;
         string email;
 
@@ -28,16 +29,9 @@ namespace YappPrototype1.Chat_Forms
             InitializeComponent();
             this.username = username;
             this.email = email;
-
-            
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-//------------------------------------------------------------------------
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e) { }
 
         private void ConnectWindow()
         {
@@ -50,7 +44,7 @@ namespace YappPrototype1.Chat_Forms
                 portNum = connect.port;
                 clientSocket = connect.clientSocket;
 
-
+                Chat_TextBox1.Clear();
                 readData = $"Connected to server {IP}:{portNum}";
                 ServerMsg();
 
@@ -89,7 +83,6 @@ namespace YappPrototype1.Chat_Forms
 
                     string returnData = Encoding.UTF8.GetString(inStream);
                     readData = "" + returnData;
-                    //ServerMsg();
 
                     if (readData.Contains("/namelist/"))
                     {
@@ -100,19 +93,26 @@ namespace YappPrototype1.Chat_Forms
                         {
                             Invoke((MethodInvoker) (() => userListBox.Items.Add(name) ));
                         }
-
                         readData = readData.Remove(readData.IndexOf("/"), readData.Length - readData.IndexOf("/"));
                         ServerMsg();
                     }
+
                     else if (readData.Contains("/join/")) 
                     {
                         string name = readData.Remove(0, readData.LastIndexOf("/") + 2);
                         Invoke((MethodInvoker) ( () => userListBox.Items.Insert(userListBox.Items.Count - 1, name) ) );
                     }
+
                     else if (readData.Contains("/leave/"))
                     {
                         string name = readData.Remove(0, readData.LastIndexOf("/") + 2);
-                        Invoke((MethodInvoker)(() => userListBox.Items.Remove(name)));
+                        
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            readData = userListBox.Items.IndexOf(name).ToString();
+                            int index = userListBox.FindStringExact(name);
+                            userListBox.Items.RemoveAt(index);
+                        }));
                     }
                     else
                     {
@@ -159,7 +159,6 @@ namespace YappPrototype1.Chat_Forms
                 clientSocket.Close();
 
                 readData = $"Disconnected from server...";
-                //userListBox.Items.Clear();
                 Invoke((MethodInvoker)(() => userListBox.Items.Clear()));
                 ServerMsg();
             }
@@ -167,14 +166,11 @@ namespace YappPrototype1.Chat_Forms
             {
                 MessageBox.Show("Not connected to server.", "Yapp! Error");
             }
+            catch (ArgumentException) { }
         }
 
-//------------------------------------------------------------------------
 
-        private void Chat_TextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void Chat_TextBox1_TextChanged(object sender, EventArgs e) { }
 
         private void SendMsg_Btn1_Click(object sender, EventArgs e)
         {
@@ -213,10 +209,7 @@ namespace YappPrototype1.Chat_Forms
             bookmarksForm.Show();
         }
 
-        private void ToolStripMenuItem3_Click(object sender, EventArgs e)
-        {
-            //MessageBox.Show("Show tools");
-        }
+        private void ToolStripMenuItem3_Click(object sender, EventArgs e) { }
 
         private void C_QuitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
