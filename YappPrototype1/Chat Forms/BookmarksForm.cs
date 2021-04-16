@@ -66,9 +66,6 @@ namespace YappPrototype1.Chat_Forms
             
         }
 
-        private void Connect_Btn1_Click(object sender, EventArgs e)
-        {
-            //TO DO
-        }
+        private void Connect_Btn1_Click(object sender, EventArgs e) { }
     }
 }
