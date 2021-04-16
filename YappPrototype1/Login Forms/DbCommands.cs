@@ -56,6 +56,11 @@ namespace YappPrototype1
                 }
                 return false;
             } 
+            catch (InvalidOperationException) 
+            { 
+                CloseConnection();
+                return false;
+            }
         }
 
         private bool CloseConnection()
@@ -95,10 +100,10 @@ namespace YappPrototype1
                 catch (MySqlException ex)
                 {
                     MessageBox.Show(ex.Message, "Yapp! Error");
+                    CloseConnection();
                     return false;
                 }
             }
-            CloseConnection();
             return false;
         }
 
@@ -132,7 +137,6 @@ namespace YappPrototype1
                     }
                 }
             }
-            CloseConnection();
             return false;
         }
 
@@ -166,7 +170,6 @@ namespace YappPrototype1
                     }
                 }
             }
-            CloseConnection();
             return false;
         }
 
@@ -200,7 +203,6 @@ namespace YappPrototype1
                 }
                 
             }
-            CloseConnection();
             return false;
         }
 
@@ -229,7 +231,6 @@ namespace YappPrototype1
                     return false;
                 }
             }
-            CloseConnection();
             return false;
         }
     }

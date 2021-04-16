@@ -167,6 +167,7 @@ namespace YappPrototype1.Chat_Forms
                 MessageBox.Show("Not connected to server.", "Yapp! Error");
             }
             catch (ArgumentException) { }
+            catch (Exception) { }
         }
 
 
@@ -238,10 +239,8 @@ namespace YappPrototype1.Chat_Forms
 
             if (dialogResult == DialogResult.OK)
             {
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "chatLog.txt";
-                var sr = new StreamWriter(path);
-                sr.Write(Chat_TextBox1.Text);
-                sr.Close();
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\chatLog.txt";
+                File.WriteAllText(path, Chat_TextBox1.Text);
             }
         }
     }
